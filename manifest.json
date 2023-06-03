@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Coursera Subtitle Extensions",
-    "description": " Introducing the ultimate solution for all your language translation needs on coursera.org, the popular video tutorial website! Our new extension allows you to effortlessly translate the English subtitles into any language of your choice. No more struggling to understand or follow along with content that's not in your native language. With our easy-to-use extension, you can fully enjoy and comprehend all the valuable information and knowledge coursera.org has to offer. Our extension does all the hard work for you with its advanced AI-powered technology. Simply select the language you want to translate the subtitles to, and watch as our extension instantly replaces the English text with your desired language. Whether you're a student, professional, or just an avid learner, our extension makes it easier than ever to access and learn from coursera.org's extensive library of educational videos. Say goodbye to language barriers and hello to limitless opportunities for learning and growth. Try our brand new translation extension today and take your coursera.org experience to the next level!",
+    "description": "Hello, this is a project to change the language of courses subtitles because I noticed that many people have trouble due to the lack of subtitles in their native language. I thought to myself that I could create a subtitle translator using Google Translate API",
     "version": "0.0.0.1",
     "browser_action": {
         "default_popup": "index.html",
