@@ -29,6 +29,14 @@ body {
   font-weight: bold;
   margin-bottom: 5px;
 }
+#main-div h1 a {
+  color: #ffe6c7;
+  text-decoration: none;
+  transition: all 200ms ease 0s;
+}
+#main-div h1 a:hover {
+  color: #ffc57e;
+}
 #main-div select {
   border: 2px solid black;
   border-radius: 5px;
