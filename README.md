@@ -14,7 +14,7 @@ Persian, English, Turkish, Spanish, French, German, Italian, Portuguese, Russian
 5. Select the folder you downloaded.
 6. Installation complete.
 7. After opening the course video, select the language and press the translate button.
-8. DONE
+8. DONE.
 
 ## images
 
