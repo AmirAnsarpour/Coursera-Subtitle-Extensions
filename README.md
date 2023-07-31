@@ -17,5 +17,6 @@ Persian, English, Turkish, Spanish, French, German, Italian, Portuguese, Russian
 8. DONE.
 
 ## images
-
-![](images/Extension)
+<a href="https://github.com/duiqt/herta_kuru/graphs/contributors">
+  <img src="images/Extension" />
+</a>
