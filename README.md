@@ -8,7 +8,7 @@ Persian, English, Turkish, Spanish, French, German, Italian, Portuguese, Russian
 
 ## Setup
 1. Download the project
-2. Unzip File.
+2. Extract file.
 3. Open your browser add-ons.
 4. Activate the Developer mode.
 5. Click on install packaged item.
