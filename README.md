@@ -7,7 +7,7 @@ Persian, English, Turkish, Spanish, French, German, Italian, Portuguese, Russian
 - If your language is not in the list, send me a message [AmirAnsarpour](https://t.me/AmirAnsarpour).
 
 ## Setup
-1. Download the project
+1. Download the project.
 2. Extract file.
 3. Open your browser add-ons.
 4. Activate the Developer mode.
