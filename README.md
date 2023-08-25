@@ -8,13 +8,14 @@ Persian, English, Turkish, Spanish, French, German, Italian, Portuguese, Russian
 
 ## Setup
 1. Download the project
-2. Open your browser add-ons.
-3. Activate the Developer mode.
-4. Click on install packaged item.
-5. Select the folder you downloaded.
-6. Installation complete.
-7. After opening the course video, select the language and press the translate button.
-8. DONE.
+2. Unzip File.
+3. Open your browser add-ons.
+4. Activate the Developer mode.
+5. Click on install packaged item.
+6. Select the folder you downloaded.
+7. Installation complete.
+8. After opening the course video, select the language and press the translate button.
+9. DONE.
 
 ## images
 <img align="center" src="images/Extension" />
