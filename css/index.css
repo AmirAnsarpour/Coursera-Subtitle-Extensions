@@ -5,6 +5,7 @@
   outline: 0px;
   font-family: sans-serif;
 }
+
 body {
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -12,14 +13,16 @@ body {
   -o-user-select: none;
   user-select: none;
 }
+
 #main-div {
   background-color: #454545;
+  width: 150px;
   padding: 20px 40px 40px 40px;
   display: flex;
   flex-direction: column;
   border: 2px solid #ffa559;
-  box-shadow: inset 0px 0px 10px black;
 }
+
 #main-div h1 {
   color: #ffe6c7;
   text-align: center;
@@ -29,14 +32,17 @@ body {
   font-weight: bold;
   margin-bottom: 5px;
 }
+
 #main-div h1 a {
   color: #ffe6c7;
   text-decoration: none;
   transition: all 200ms ease 0s;
 }
+
 #main-div h1 a:hover {
   color: #ffc57e;
 }
+
 #main-div select {
   border: 2px solid black;
   border-radius: 5px;
@@ -48,9 +54,11 @@ body {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   transition: all 200ms ease 0s;
 }
+
 #main-div select:hover {
   background-color: rgba(255, 164, 89, 0.8);
 }
+
 #main-div #translateBtn {
   background-color: #ff6000;
   border-radius: 5px;
@@ -64,19 +72,23 @@ body {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   transition: all 200ms ease 0s;
 }
+
 #main-div #translateBtn:hover {
   background-color: rgba(255, 98, 0, 0.8);
 }
+
 #main-div #me-div h6 {
   font-size: 17px;
   margin: 10px auto 0px auto;
   text-align: center;
 }
+
 #main-div #me-div h6 a {
   color: #ffe6c7;
   text-decoration: none;
   transition: all 300ms ease 0s;
 }
+
 #main-div #me-div h6 a:hover {
   transform: rotate(0.5turn);
 }
