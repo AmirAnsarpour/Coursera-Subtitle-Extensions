@@ -1,40 +1,31 @@
 {
-    "manifest_version": 2,
-    "name": "Coursera Subtitle Extensions",
-    "description": "Hello, this is a project to change the language of courses subtitles because I noticed that many people have trouble due to the lack of subtitles in their native language. I thought to myself that I could create a subtitle translator using Google Translate API",
-    "version": "0.0.0.1",
-    "browser_action": {
-        "default_popup": "index.html",
-        "default_icon": {
-            "16": "images/16.png",
-            "32": "images/32.png"
-        }
-    },
-    "icons": {
-        "16": "images/16.png",
-        "32": "images/32.png",
-        "48": "images/48.png",
-        "128": "images/128.png"
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "*://www.coursera.org/*"
-            ],
-            "js": [
-                "js/main.js"
-            ]
-        }
-    ],
-    "background": {
-        "scripts": [
-            "js/main.js"
-        ],
-        "persistent": false
-    },
-    "permissions": [
-        "tabs",
-        "storage",
-        "activeTab"
-    ]
+  "manifest_version": 2,
+  "name": "Coursera Subtitle Extensions",
+  "description": "Hello, this is a project to change the language of courses subtitles because I noticed that many people have trouble due to the lack of subtitles in their native language. I thought to myself that I could create a subtitle translator using Google Translate API",
+  "version": "0.0.1.0",
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "images/16.png",
+      "32": "images/32.png"
+    }
+  },
+  "icons": {
+    "16": "images/16.png",
+    "32": "images/32.png",
+    "48": "images/48.png",
+    "128": "images/128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://www.coursera.org/*"],
+      "js": ["js/main.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["js/main.js"],
+    "persistent": false
+  },
+  "permissions": ["tabs", "storage", "activeTab"],
+  "host_permissions": ["https://translate.googleapis.com/*"]
 }

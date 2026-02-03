@@ -1,105 +1,92 @@
 async function openBilingual() {
-    let tracks = document.getElementsByTagName("track");
-    let en;
-    let tr;
-    if (tracks.length) {
-      for (let i = 0; i < tracks.length; i++) {
-        if (tracks[i].srclang === "en") {
-          en = tracks[i];
-        }
-      }
-  
-      if (en) {
-        en.track.mode = "showing";
-  
-        await sleep(500);
-        let cues = en.track.cues;
-  
-        let endSentence = [];
-        for (let i = 0; i < cues.length; i++) {
-          for (let j = 0; j < cues[i].text.length; j++) {
-            if (cues[i].text[j] == "." && cues[i].text[j + 1] == undefined) {
-              endSentence.push(i);
-            }
-          }
-        }
-        let cuesTextList = getTexts(cues);
-  
-        getTranslation(cuesTextList, (translatedText) => {
-          let translatedList = translatedText.split(" z~~~z");
-          translatedList.splice(-1, 1);
-  
-          for (let i = 0; i < endSentence.length; i++) {
-            if (i != 0) {
-              for (let j = endSentence[i - 1] + 1; j <= endSentence[i]; j++) {
-                cues[j].text = translatedList[i];
-              }
-            } else {
-              for (let j = 0; j <= endSentence[i]; j++) {
-                cues[j].text = translatedList[i];
-              }
-            }
-          }
-        });
-      }
-    }
-  }
-  
-  String.prototype.replaceAt = function (index, replacement) {
-    return (
-      this.substr(0, index) +
-      replacement +
-      this.substr(index + replacement.length)
+  // 1. Find the video element and the English track
+  const video = document.querySelector("video");
+  if (!video) return alert("Video not found!");
+
+  let tracks = video.textTracks;
+  let enTrack = Array.from(tracks).find(
+    (t) => t.language === "en" || t.label.toLowerCase().includes("english"),
+  );
+
+  if (!enTrack) {
+    return alert(
+      "English subtitle track not found. Please enable English subs first.",
     );
-  };
-  
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
   }
-  
-  function getTexts(cues) {
-    let cuesTextList = "";
-    for (let i = 0; i < cues.length; i++) {
-  
-      if (cues[i].text[cues[i].text.length - 1] == ".") {
-        cues[i].text = cues[i].text.replaceAt(
-          cues[i].text.length - 1,
-          ". z~~~z "
-        );
-      }
-      cuesTextList += cues[i].text.replace(/\n/g, " ") + " ";
-    }
-    return cuesTextList;
+
+  // 2. Force track to load cues
+  enTrack.mode = "showing";
+
+  // Wait for cues to populate (Coursera fetches them on demand)
+  if (!enTrack.cues || enTrack.cues.length === 0) {
+    await new Promise((r) => setTimeout(r, 1000));
   }
-  
-  function getTranslation(words, callback) {
-    chrome.storage.sync.get(["lang"], function (result) {
-      let lang = result.lang;
-      const xhr = new XMLHttpRequest();
-      let url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${lang}&dt=t&q=${encodeURI(
-        words
-      )}`;
-      xhr.open("GET", url, true);
-      xhr.responseType = "text";
-      xhr.onload = function () {
-        if (xhr.readyState === xhr.DONE) {
-          if (xhr.status === 200 || xhr.status === 304) {
-            const translatedList = JSON.parse(xhr.responseText)[0];
-            let translatedText = "";
-            for (let i = 0; i < translatedList.length; i++) {
-              translatedText += translatedList[i][0];
-            }
-            callback(translatedText);
+
+  const cues = enTrack.cues;
+  if (!cues || cues.length === 0)
+    return alert("Cues empty. Try play the video for 1 sec.");
+
+  // 3. Collect text and use a safer separator
+  // We use a unique number pattern that Google Translate won't destroy
+  let fullText = "";
+  for (let i = 0; i < cues.length; i++) {
+    fullText += cues[i].text.replace(/\n/g, " ") + ` [${i}] `;
+  }
+
+  // 4. Get Translation
+  chrome.storage.sync.get(["lang"], async (result) => {
+    const targetLang = result.lang || "fa";
+
+    try {
+      const translatedText = await fetchTranslation(fullText, targetLang);
+
+      // 5. Map translations back to cues using the [index] marker
+      for (let i = 0; i < cues.length; i++) {
+        // Find text between [i] and [i+1]
+        let startMarker = `[${i}]`;
+        let endMarker = `[${i + 1}]`;
+
+        let startIdx = translatedText.indexOf(startMarker);
+        let endIdx = translatedText.indexOf(endMarker);
+
+        if (startIdx !== -1) {
+          let chunk;
+          if (endIdx !== -1) {
+            chunk = translatedText.substring(
+              startIdx + startMarker.length,
+              endIdx,
+            );
+          } else {
+            chunk = translatedText.substring(startIdx + startMarker.length);
           }
+
+          // Clean up the text and update the subtitle
+          cues[i].text = chunk.trim();
         }
-      };
-      xhr.send();
-    });
-  }
-  
-  chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    if (request.method == "translate") {
-      openBilingual();
+      }
+    } catch (err) {
+      console.error("Translation failed", err);
     }
   });
-  
+}
+
+async function fetchTranslation(text, lang) {
+  // Google Translate "gtx" has a roughly 5000 character limit.
+  // For long videos, we might need to chunk this, but for most Coursera clips, this works:
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${lang}&dt=t&q=${encodeURIComponent(text)}`;
+
+  const response = await fetch(url);
+  const json = await response.json();
+
+  // Google returns an array of chunks
+  return json[0].map((item) => item[0]).join("");
+}
+
+// Listener for the popup button
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.method === "translate") {
+    openBilingual();
+    sendResponse({ method: "translate", status: "started" });
+  }
+  return true;
+});
