@@ -278,6 +278,17 @@ function resetSubtitles() {
   chrome.storage.local.remove("translationState");
 }
 
+function applySubtitleFont() {
+  chrome.storage.sync.get(["fontSize"], (s) => {
+    const styleId = "cse-font-style";
+    let el = document.getElementById(styleId);
+    if (!el) { el = document.createElement("style"); el.id = styleId; document.head.appendChild(el); }
+    el.textContent = `::cue { font-size: ${s.fontSize || 16}px !important; }`;
+  });
+}
+applySubtitleFont();
+chrome.storage.onChanged.addListener((changes) => { if (changes.fontSize) applySubtitleFont(); });
+
 // ── Message listener ────────────────────────────────────────────────────────
 
 chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {

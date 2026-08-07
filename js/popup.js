@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnText         = btn.querySelector("span");
   const bilingualToggle = document.getElementById("bilingualToggle");
   const statusHint      = document.getElementById("statusHint");
+  const fontSizeInput   = document.getElementById("fontSizeInput");
 
   const LANG_NAMES = {
     fa: "Persian",   ar: "Arabic",       bg: "Bulgarian",  ca: "Catalan",
@@ -72,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ── Restore saved state ───────────────────────────────────────────────────
 
-  chrome.storage.sync.get(["lang", "bilingual"], (s) => {
+  chrome.storage.sync.get(["lang", "bilingual", "fontSize"], (s) => {
     if (s.lang) {
       hiddenInput.value = s.lang;
       const match = document.querySelector(`.option[data-value="${s.lang}"]`);
@@ -80,10 +81,16 @@ document.addEventListener("DOMContentLoaded", () => {
       setActive(s.lang);
     }
     if (s.bilingual) bilingualToggle.checked = s.bilingual;
+    if (s.fontSize) fontSizeInput.value = s.fontSize;
   });
 
   bilingualToggle.addEventListener("change", () => {
     chrome.storage.sync.set({ bilingual: bilingualToggle.checked });
+  });
+
+  fontSizeInput.addEventListener("change", () => {
+    const val = parseInt(fontSizeInput.value, 10);
+    if (val >= 10 && val <= 50) chrome.storage.sync.set({ fontSize: val });
   });
 
   // ── Reflect translation state on open ─────────────────────────────────────
