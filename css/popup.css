@@ -522,3 +522,20 @@ footer a:hover {
 .status-hint.translated {
   color: rgba(10, 132, 255, 0.75);
 }
+
+.font-size-input {
+  width: 70px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--text);
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+.font-size-input:focus {
+  border-color: rgba(10, 132, 255, 0.6);
+  background: rgba(255, 255, 255, 0.12);
+}
